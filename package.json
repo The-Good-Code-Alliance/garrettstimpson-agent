@@ -1,0 +1,99 @@
+{
+  "name": "garrettstimpson-agent",
+  "version": "4.3.0",
+  "private": true,
+  "description": "Security research agent \u2014 neuron-db (Rust core compiled to in-Worker WASM) powers corpus RAG + conversation memory, with a runtime model picker over the Cloudflare Workers AI catalog (mirroring the neuron-db lab), plus NVD/EPSS/KEV, passive OSINT and web search. Deploy to your own Cloudflare account in one click.",
+  "cloudflare": {
+    "bindings": [
+      {
+        "type": "plain_text",
+        "name": "LLMS_URL",
+        "text": "https://raw.githubusercontent.com/gary23w/garrettstimpson.ca/refs/heads/main/llms.txt",
+        "description": "URL of your site llms.txt corpus (e.g. https://yoursite.com/llms.txt)"
+      },
+      {
+        "type": "plain_text",
+        "name": "SITE_NAME",
+        "text": "Garrett Stimpson Security Research",
+        "description": "Display name shown in the agent chat UI"
+      },
+      {
+        "type": "plain_text",
+        "name": "ACCESS_PASSWORD",
+        "text": "",
+        "description": "Login password gating the whole agent (prompted at deploy). Setting this OR ACCESS_USER turns the login on; leave BOTH blank for open access. Note: a plain_text value is visible in the CF dashboard — for a true secret, leave blank and run `wrangler secret put ACCESS_PASSWORD`."
+      },
+      {
+        "type": "plain_text",
+        "name": "ACCESS_USER",
+        "text": "",
+        "description": "Optional login username. NOTE: setting this alone turns the login on, but for real security also set ACCESS_PASSWORD."
+      },
+      {
+        "type": "secret_text",
+        "name": "GITHUB_TOKEN",
+        "description": "Optional read-only GitHub PAT — enables github_osint code search (anonymous is impossible)."
+      },
+      {
+        "type": "secret_text",
+        "name": "HIBP_API_KEY",
+        "description": "Optional HaveIBeenPwned API key — enables HIBP results in breach_check (XposedOrNot works without it)."
+      },
+      {
+        "type": "secret_text",
+        "name": "GOOGLE_CSE_KEY",
+        "description": "Optional Google Programmable Search API key (with GOOGLE_CSE_CX) for reliable web_search."
+      },
+      {
+        "type": "plain_text",
+        "name": "GOOGLE_CSE_CX",
+        "text": "",
+        "description": "Optional Google Programmable Search engine id (cx) — pair with GOOGLE_CSE_KEY."
+      },
+      {
+        "type": "secret_text",
+        "name": "BING_API_KEY",
+        "description": "Optional Bing Web Search API key for reliable web_search."
+      },
+      {
+        "type": "secret_text",
+        "name": "ABUSECH_API_KEY",
+        "description": "Optional abuse.ch Auth-Key (free) — enables URLhaus malware-URL lookups."
+      },
+      {
+        "type": "plain_text",
+        "name": "DISCLOSURE_FROM",
+        "text": "",
+        "description": "Your name/handle used to sign responsible-disclosure drafts (disclosure_draft). Drafts only — nothing is sent."
+      },
+      {
+        "type": "plain_text",
+        "name": "DISCLOSURE_SEND_ENABLED",
+        "text": "false",
+        "description": "Set to true to allow human-confirmed disclosure sending (off by default). Requires a verified provider below."
+      },
+      {
+        "type": "plain_text",
+        "name": "DISCLOSURE_FROM_EMAIL",
+        "text": "",
+        "description": "Verified sender email (e.g. security@yourdomain) for disclosure sends — must be verified with your provider. Never anonymous."
+      },
+      {
+        "type": "secret_text",
+        "name": "RESEND_API_KEY",
+        "description": "Resend API key for sending disclosure emails (simplest). Requires a verified domain."
+      },
+      {
+        "type": "secret_text",
+        "name": "MAILGUN_API_KEY",
+        "description": "Alternative to Resend: Mailgun API key (with MAILGUN_DOMAIN)."
+      },
+      {
+        "type": "plain_text",
+        "name": "MAILGUN_DOMAIN",
+        "text": "",
+        "description": "Mailgun sending domain (used with MAILGUN_API_KEY)."
+      }
+    ]
+  }
+}
